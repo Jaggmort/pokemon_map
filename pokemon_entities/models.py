@@ -1,4 +1,5 @@
-from django.db import models  
+from django.db import models
+from django.utils import timezone
 
 class Pokemon(models.Model):
     title = models.TextField()
@@ -8,6 +9,10 @@ class Pokemon(models.Model):
         return self.title
     
 class PokemonEntity(models.Model):
+    pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE)    
     lat = models.FloatField()
     lon = models.FloatField()
-    pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE)
+    appeared_at = models.DateTimeField(default=timezone.now())
+    disappeared_at = models.DateTimeField(default=timezone.now())
+
+
