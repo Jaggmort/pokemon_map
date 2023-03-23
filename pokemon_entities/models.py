@@ -19,3 +19,18 @@ class PokemonEntity(models.Model):
     strength = models.IntegerField(default=0)
     defence = models.IntegerField(default=0)
     stamina = models.IntegerField(default=0)
+
+    def get_lat(self):
+        return self.lat
+    
+    def get_lon(self):
+        return self.lon
+
+    def get_image_url(self):
+        return "{0}{1}".format('http://127.0.0.1:8000', self.pokemon.image.url)        
+
+    def get_pokemon_title(self):
+        return  self.pokemon.title
+    
+    def get_id(self):
+        return self.pk
