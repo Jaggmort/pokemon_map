@@ -7,6 +7,7 @@ class Pokemon(models.Model):
 
     def __str__(self):
         return self.title
+     
     
 class PokemonEntity(models.Model):
     pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE)    
@@ -24,10 +25,7 @@ class PokemonEntity(models.Model):
         return self.lat
     
     def get_lon(self):
-        return self.lon
-
-    def get_image_url(self):
-        return "{0}{1}".format('http://127.0.0.1:8000', self.pokemon.image.url)        
+        return self.lon      
 
     def get_pokemon_title(self):
         return  self.pokemon.title
