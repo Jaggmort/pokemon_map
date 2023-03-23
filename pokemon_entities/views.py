@@ -36,8 +36,7 @@ def show_all_pokemons(request):
         datetime_now = localtime()
         appear = pokemon.get_appear_at() - datetime_now
         disappear = pokemon.get_disappeared_at() - datetime_now
-        print(datetime_now, pokemon.get_appear_at(), pokemon.get_disappeared_at())
-        if appear.total_seconds() <0 and disappear.total_seconds() > 0:        
+        if appear.total_seconds() < 0 and disappear.total_seconds() > 0:        
             add_pokemon(folium_map, pokemon.get_lat(), pokemon.get_lon(), pokemon.get_image_url())
 
     pokemons_on_page = []

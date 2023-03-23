@@ -39,4 +39,4 @@ class PokemonEntity(models.Model):
         return self.disappeared_at
 
     def get_id(self):
-        return self.pk        
+        return self.pokemon.pk        
