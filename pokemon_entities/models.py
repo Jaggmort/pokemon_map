@@ -32,5 +32,11 @@ class PokemonEntity(models.Model):
     def get_pokemon_title(self):
         return  self.pokemon.title
     
+    def get_appear_at(self):
+        return self.appeared_at
+    
+    def get_disappeared_at(self):
+        return self.disappeared_at
+
     def get_id(self):
-        return self.pk
+        return self.pk        
