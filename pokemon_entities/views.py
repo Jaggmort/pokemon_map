@@ -6,7 +6,6 @@ from django.shortcuts import render
 from .models import PokemonEntity, Pokemon
 from django.utils.timezone import localtime
 
-
 MOSCOW_CENTER = [55.751244, 37.618423]
 DEFAULT_IMAGE_URL = (
     'https://vignette.wikia.nocookie.net/pokemon/images/6/6e/%21.png/revision'
@@ -29,16 +28,12 @@ def add_pokemon(folium_map, lat, lon, image_url=DEFAULT_IMAGE_URL):
 
 
 def show_all_pokemons(request):
-    pokemons_entity = PokemonEntity.objects.all()
+    pokemons_entity = PokemonEntity.objects.filter(appeared_at__lte=localtime(), disappeared_at__gte=localtime())
     pokemons = Pokemon.objects.all()
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
 
-    for entity in pokemons_entity:
-        datetime_now = localtime()
-        appear = entity.appeared_at - datetime_now
-        disappear = entity.disappeared_at() - datetime_now
-        if appear.total_seconds() < 0 and disappear.total_seconds() > 0:        
-            add_pokemon(folium_map, entity.lat, entity.lon, request.build_absolute_uri(entity.pokemon.image.url))
+    for entity in pokemons_entity:   
+        add_pokemon(folium_map, entity.lat, entity.lon, request.build_absolute_uri(entity.pokemon.image.url))
 
     pokemons_on_page = []
     for pokemon in pokemons:
@@ -81,14 +76,10 @@ def show_pokemon(request, pokemon_id):
     except:
         print('no childs')           
             
-    pokemons_entity = PokemonEntity.objects.filter(pokemon=pokemon_id)
+    pokemons_entity = PokemonEntity.objects.filter(pokemon=pokemon_id, appeared_at__lte=localtime(), disappeared_at__gte=localtime())
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
-    for entity in pokemons_entity:
-        datetime_now = localtime()
-        appear = entity.appeared_at - datetime_now
-        disappear = entity.disappeared_at - datetime_now    
-        if appear.total_seconds() < 0 and disappear.total_seconds() > 0:        
-            add_pokemon(folium_map, entity.lat, entity.lon, request.build_absolute_uri(entity.pokemon.image.url))    
+    for entity in pokemons_entity:  
+        add_pokemon(folium_map, entity.lat, entity.lon, request.build_absolute_uri(entity.pokemon.image.url))    
      
 
     return render(request, 'pokemon.html', context={
