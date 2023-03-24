@@ -5,6 +5,8 @@ from django.http import HttpResponseNotFound, request
 from django.shortcuts import render
 from .models import PokemonEntity, Pokemon
 from django.utils.timezone import localtime
+from django.shortcuts import get_object_or_404
+
 
 MOSCOW_CENTER = [55.751244, 37.618423]
 DEFAULT_IMAGE_URL = (
@@ -50,11 +52,7 @@ def show_all_pokemons(request):
 
 
 def show_pokemon(request, pokemon_id):
-    pokemon_db = Pokemon.objects.get(pk=pokemon_id)
-    try:
-        child = pokemon_db.childs.get()
-    except:
-        print('no childs')
+    pokemon_db = get_object_or_404(Pokemon, pk=pokemon_id)
     pokemon = {"pokemon_id": pokemon_id,
                'img_url':f'{request.build_absolute_uri(pokemon_db.image.url)}',
                'title_ru':pokemon_db.title,
