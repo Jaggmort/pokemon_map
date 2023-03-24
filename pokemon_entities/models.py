@@ -17,13 +17,13 @@ class PokemonEntity(models.Model):
     pokemon = models.ForeignKey(Pokemon, verbose_name='Покемон', on_delete=models.CASCADE, related_name='specified_pokemon')    
     lat = models.FloatField('Широта', null=True)
     lon = models.FloatField('Долгота', null=True)
-    appeared_at = models.DateTimeField('Появиться в', default=timezone.now(), null=True)
-    disappeared_at = models.DateTimeField('Исчезнет в', default=timezone.now(), null=True)
-    level = models.IntegerField('Уровень', default=0, null=True, blank=True)
-    health = models.IntegerField('Жизни', default=0, null=True, blank=True)
-    strength = models.IntegerField('Сила', default=0, null=True, blank=True)
-    defence = models.IntegerField('Защита', default=0, null=True, blank=True)
-    stamina = models.IntegerField('Выносливость', default=0, null=True, blank=True)
+    appeared_at = models.DateTimeField('Появиться в', null=True)
+    disappeared_at = models.DateTimeField('Исчезнет в', null=True)
+    level = models.IntegerField('Уровень', null=True, blank=True)
+    health = models.IntegerField('Жизни', null=True, blank=True)
+    strength = models.IntegerField('Сила', null=True, blank=True)
+    defence = models.IntegerField('Защита', null=True, blank=True)
+    stamina = models.IntegerField('Выносливость', null=True, blank=True)
 
     def get_lat(self):
         return self.lat
