@@ -55,7 +55,7 @@ def show_all_pokemons(request):
 def show_pokemon(request, pokemon_id):
     pokemon_db = get_object_or_404(Pokemon, pk=pokemon_id)
     pokemon = {"pokemon_id": pokemon_id,
-               'img_url':f'{request.build_absolute_uri(pokemon_db.image.url)}',
+               'img_url':request.build_absolute_uri(pokemon_db.image.url),
                'title_ru':pokemon_db.title,
                'description':pokemon_db.description,
                'title_en':pokemon_db.title_en,
@@ -64,14 +64,14 @@ def show_pokemon(request, pokemon_id):
     if pokemon_db.parent:
         pokemon['previous_evolution'] =  {"title_ru": pokemon_db.parent.title,
                                           "pokemon_id": pokemon_db.parent.pk,
-                                          "img_url": f'{request.build_absolute_uri(pokemon_db.parent.image.url)}'
+                                          "img_url": request.build_absolute_uri(pokemon_db.parent.image.url)
                                           }
 
     child = pokemon_db.childs.first()
     if child:
         pokemon['next_evolution'] =  {"title_ru": child.title,
                                       "pokemon_id": child.pk,
-                                      "img_url": f'{request.build_absolute_uri(child.image.url)}'
+                                      "img_url": request.build_absolute_uri(child.image.url)
                                       }       
     local_time = localtime()
     pokemon_entities = PokemonEntity.objects.filter(pokemon=pokemon_id, appeared_at__lte=local_time, disappeared_at__gte=local_time)
