@@ -35,10 +35,10 @@ def show_all_pokemons(request):
 
     for entity in pokemons_entity:
         datetime_now = localtime()
-        appear = entity.get_appear_at() - datetime_now
-        disappear = entity.get_disappeared_at() - datetime_now
+        appear = entity.appeared_at - datetime_now
+        disappear = entity.disappeared_at() - datetime_now
         if appear.total_seconds() < 0 and disappear.total_seconds() > 0:        
-            add_pokemon(folium_map, entity.get_lat(), entity.get_lon(), request.build_absolute_uri(entity.pokemon.image.url))
+            add_pokemon(folium_map, entity.lat, entity.lon, request.build_absolute_uri(entity.pokemon.image.url))
 
     pokemons_on_page = []
     for pokemon in pokemons:
@@ -85,10 +85,10 @@ def show_pokemon(request, pokemon_id):
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for entity in pokemons_entity:
         datetime_now = localtime()
-        appear = entity.get_appear_at() - datetime_now
-        disappear = entity.get_disappeared_at() - datetime_now    
+        appear = entity.appeared_at - datetime_now
+        disappear = entity.disappeared_at - datetime_now    
         if appear.total_seconds() < 0 and disappear.total_seconds() > 0:        
-            add_pokemon(folium_map, entity.get_lat(), entity.get_lon(), request.build_absolute_uri(entity.pokemon.image.url))    
+            add_pokemon(folium_map, entity.lat, entity.lon, request.build_absolute_uri(entity.pokemon.image.url))    
      
 
     return render(request, 'pokemon.html', context={

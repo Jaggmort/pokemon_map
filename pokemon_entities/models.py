@@ -23,22 +23,4 @@ class PokemonEntity(models.Model):
     health = models.IntegerField('Жизни', null=True, blank=True)
     strength = models.IntegerField('Сила', null=True, blank=True)
     defence = models.IntegerField('Защита', null=True, blank=True)
-    stamina = models.IntegerField('Выносливость', null=True, blank=True)
-
-    def get_lat(self):
-        return self.lat
-    
-    def get_lon(self):
-        return self.lon      
-
-    def get_pokemon_title(self):
-        return  self.pokemon.title
-    
-    def get_appear_at(self):
-        return self.appeared_at
-    
-    def get_disappeared_at(self):
-        return self.disappeared_at
-
-    def get_id(self):
-        return self.pokemon.pk        
+    stamina = models.IntegerField('Выносливость', null=True, blank=True)     
