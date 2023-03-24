@@ -6,7 +6,6 @@ from django.shortcuts import render
 from .models import PokemonEntity, Pokemon
 from django.utils.timezone import localtime
 from django.shortcuts import get_object_or_404
-import logging
 
 
 MOSCOW_CENTER = [55.751244, 37.618423]
@@ -66,14 +65,13 @@ def show_pokemon(request, pokemon_id):
                                           "pokemon_id": pokemon_db.parent.pk,
                                           "img_url": f'{request.build_absolute_uri(pokemon_db.parent.image.url)}'
                                           }
-    try:
-        child = pokemon_db.childs.get()
+
+    child = pokemon_db.childs.all().first()
+    if child:
         pokemon['next_evolution'] =  {"title_ru": child.title,
                                       "pokemon_id": child.pk,
                                       "img_url": f'{request.build_absolute_uri(child.image.url)}'
                                       }       
-    except:
-        logging.info('no childs')
             
     pokemons_entity = PokemonEntity.objects.filter(pokemon=pokemon_id, appeared_at__lte=localtime(), disappeared_at__gte=localtime())
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
