@@ -7,7 +7,7 @@ class Pokemon(models.Model):
     description = models.TextField(null=True)
     title_en = models.TextField(null=True)
     title_jp = models.TextField(null=True)
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, related_name='child')
 
     def __str__(self):
         return self.title

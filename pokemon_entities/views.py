@@ -56,7 +56,11 @@ def show_all_pokemons(request):
 
 def show_pokemon(request, pokemon_id):
     pokemon_db = Pokemon.objects.get(pk=pokemon_id)
-    print(pokemon_db.parent)
+    print(pokemon_db.child)
+    try:
+        child = pokemon_db.child.get()
+    except:
+        print('no childs')
     pokemon = {"pokemon_id": pokemon_id,
                'img_url':f'{request.build_absolute_uri(pokemon_db.image.url)}',
                'title_ru':pokemon_db.title,
@@ -68,7 +72,15 @@ def show_pokemon(request, pokemon_id):
         pokemon['previous_evolution'] =  {"title_ru": pokemon_db.parent.title,
                                           "pokemon_id": pokemon_db.parent.pk,
                                           "img_url": f'{request.build_absolute_uri(pokemon_db.parent.image.url)}'
-                                          } 
+                                          }
+    try:
+        child = pokemon_db.child.get()
+        pokemon['next_evolution'] =  {"title_ru": child.title,
+                                      "pokemon_id": child.pk,
+                                      "img_url": f'{request.build_absolute_uri(child.image.url)}'
+                                      }       
+    except:
+        print('no childs')           
             
     pokemons_entity = PokemonEntity.objects.filter(pokemon=pokemon_id)
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
