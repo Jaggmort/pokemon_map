@@ -2,11 +2,11 @@ from django.db import models
 from django.utils import timezone
 
 class Pokemon(models.Model):
-    title = models.TextField('Название')
+    title = models.CharField('Название', max_length=100)
     image = models.ImageField('Изображение', null=True, blank=True)
     description = models.TextField('Описание', blank=True)
-    title_en = models.TextField('Название на английском', blank=True)
-    title_jp = models.TextField('Название на японском',blank=True)
+    title_en = models.CharField('Название на английском', blank=True, max_length=100)
+    title_jp = models.CharField('Название на японском',blank=True, max_length=100)
     parent = models.ForeignKey('self', verbose_name= 'Из кого появился',on_delete=models.CASCADE, null=True, blank=True, related_name='child')
 
     def __str__(self):
